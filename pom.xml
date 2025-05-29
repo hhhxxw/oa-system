@@ -218,6 +218,13 @@
                 <version>${tdt.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.tdt</groupId>
+                <artifactId>oa</artifactId>
+                <version>${tdt.version}</version>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
@@ -228,6 +235,7 @@
         <module>tdt-quartz</module>
         <module>tdt-generator</module>
         <module>tdt-common</module>
+        <module>oa</module>
     </modules>
     <packaging>pom</packaging>
 

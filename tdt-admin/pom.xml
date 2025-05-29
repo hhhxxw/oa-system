@@ -60,6 +60,10 @@
             <groupId>com.tdt</groupId>
             <artifactId>tdt-generator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.tdt</groupId>
+            <artifactId>oa</artifactId>
+        </dependency>
 
     </dependencies>
 
