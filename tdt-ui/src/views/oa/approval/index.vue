@@ -1,6 +1,26 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="审批类型" prop="type">
+        <el-select v-model="queryParams.type" placeholder="请选择审批类型" clearable>
+          <el-option
+            v-for="dict in approval_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="审批状态" prop="status">
+        <el-select v-model="queryParams.status" placeholder="请选择审批状态" clearable>
+          <el-option
+            v-for="dict in approval_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="开始时间" prop="startTime">
         <el-date-picker clearable
           v-model="queryParams.startTime"
@@ -69,8 +89,16 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="创建者" align="center" prop="createBy" />
-      <el-table-column label="审批类型" align="center" prop="type" />
-      <el-table-column label="审批状态" align="center" prop="status" />
+      <el-table-column label="审批类型" align="center" prop="type">
+        <template #default="scope">
+          <dict-tag :options="approval_type" :value="scope.row.type"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="审批状态" align="center" prop="status">
+        <template #default="scope">
+          <dict-tag :options="approval_status" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
@@ -107,6 +135,25 @@
     <!-- 添加或修改审批对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="approvalRef" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="审批类型" prop="type">
+          <el-select v-model="form.type" placeholder="请选择审批类型">
+            <el-option
+              v-for="dict in approval_type"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="审批状态" prop="status">
+          <el-radio-group v-model="form.status">
+            <el-radio
+              v-for="dict in approval_status"
+              :key="dict.value"
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="开始时间" prop="startTime">
           <el-date-picker clearable
             v-model="form.startTime"
@@ -141,6 +188,7 @@
 import { listApproval, getApproval, delApproval, addApproval, updateApproval } from "@/api/oa/approval"
 
 const { proxy } = getCurrentInstance()
+const { approval_status, approval_type } = proxy.useDict('approval_status', 'approval_type')
 
 const approvalList = ref([])
 const open = ref(false)

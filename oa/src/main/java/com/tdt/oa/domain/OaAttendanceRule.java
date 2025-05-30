@@ -8,34 +8,34 @@ import com.tdt.common.annotation.Excel;
 import com.tdt.common.core.domain.BaseEntity;
 
 /**
- * 审批对象 oa_approval
+ * 打卡规则对象 oa_attendance_rule
  * 
  * @author hxw
  * @date 2025-05-30
  */
-public class OaApproval extends BaseEntity
+public class OaAttendanceRule extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
     private Long id;
 
-    /** 审批类型（0补卡 1请假） */
-    @Excel(name = "审批类型", readConverterExp = "0=补卡,1=请假")
-    private String type;
+    /** 工作日 */
+    @Excel(name = "工作日")
+    private String weekday;
 
-    /** 审批状态（0待审核 1通过，2：拒绝） */
-    @Excel(name = "审批状态", readConverterExp = "0=待审核,1=通过，2：拒绝")
-    private String status;
+    /** 休息日 */
+    @Excel(name = "休息日")
+    private String restDay;
 
-    /** 开始时间 */
+    /** 上班时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "开始时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "上班时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date startTime;
 
-    /** 结束时间 */
+    /** 下班时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "下班时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date endTime;
 
     public void setId(Long id) 
@@ -48,24 +48,24 @@ public class OaApproval extends BaseEntity
         return id;
     }
 
-    public void setType(String type) 
+    public void setWeekday(String weekday) 
     {
-        this.type = type;
+        this.weekday = weekday;
     }
 
-    public String getType() 
+    public String getWeekday() 
     {
-        return type;
+        return weekday;
     }
 
-    public void setStatus(String status) 
+    public void setRestDay(String restDay) 
     {
-        this.status = status;
+        this.restDay = restDay;
     }
 
-    public String getStatus() 
+    public String getRestDay() 
     {
-        return status;
+        return restDay;
     }
 
     public void setStartTime(Date startTime) 
@@ -92,9 +92,9 @@ public class OaApproval extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
+            .append("weekday", getWeekday())
+            .append("restDay", getRestDay())
             .append("createBy", getCreateBy())
-            .append("type", getType())
-            .append("status", getStatus())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())

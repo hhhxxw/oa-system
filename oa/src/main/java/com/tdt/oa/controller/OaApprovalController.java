@@ -20,11 +20,12 @@ import com.tdt.oa.domain.OaApproval;
 import com.tdt.oa.service.IOaApprovalService;
 import com.tdt.common.utils.poi.ExcelUtil;
 import com.tdt.common.core.page.TableDataInfo;
+
 /**
  * 审批Controller
- *
+ * 
  * @author hxw
- * @date 2025-05-28
+ * @date 2025-05-30
  */
 @RestController
 @RequestMapping("/oa/approval")
@@ -36,7 +37,6 @@ public class OaApprovalController extends BaseController
     /**
      * 查询审批列表
      */
-
     @PreAuthorize("@ss.hasPermi('oa:approval:list')")
     @GetMapping("/list")
     public TableDataInfo list(OaApproval oaApproval)

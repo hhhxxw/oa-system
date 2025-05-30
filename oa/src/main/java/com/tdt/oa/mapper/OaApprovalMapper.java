@@ -7,7 +7,7 @@ import com.tdt.oa.domain.OaApproval;
  * 审批Mapper接口
  * 
  * @author hxw
- * @date 2025-05-28
+ * @date 2025-05-30
  */
 public interface OaApprovalMapper 
 {

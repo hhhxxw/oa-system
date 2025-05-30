@@ -1,15 +1,13 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="${comment}" style="width: 308px">
-        <el-date-picker
-          v-model="daterangeDate"
+      <el-form-item label="${comment}" prop="date">
+        <el-date-picker clearable
+          v-model="queryParams.date"
+          type="date"
           value-format="YYYY-MM-DD"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
+          placeholder="请选择${comment}">
+        </el-date-picker>
       </el-form-item>
       <el-form-item label="${comment}" prop="type">
         <el-select v-model="queryParams.type" placeholder="请选择${comment}" clearable>
@@ -91,7 +89,6 @@
         </template>
       </el-table-column>
       <el-table-column label="${comment}" align="center" prop="typeDes" />
-      <el-table-column label="创建者" align="center" prop="createBy" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
@@ -155,21 +152,20 @@
 </template>
 
 <script setup name="Holiday">
-import { listHoliday, getHoliday, delHoliday, addHoliday, updateHoliday } from "@/api/oa/holiday";
+import { listHoliday, getHoliday, delHoliday, addHoliday, updateHoliday } from "@/api/oa/holiday"
 
-const { proxy } = getCurrentInstance();
-const { holiday_type } = proxy.useDict('holiday_type');
+const { proxy } = getCurrentInstance()
+const { holiday_type } = proxy.useDict('holiday_type')
 
-const holidayList = ref([]);
-const open = ref(false);
-const loading = ref(true);
-const showSearch = ref(true);
-const ids = ref([]);
-const single = ref(true);
-const multiple = ref(true);
-const total = ref(0);
-const title = ref("");
-const daterangeDate = ref([]);
+const holidayList = ref([])
+const open = ref(false)
+const loading = ref(true)
+const showSearch = ref(true)
+const ids = ref([])
+const single = ref(true)
+const multiple = ref(true)
+const total = ref(0)
+const title = ref("")
 
 const data = reactive({
   form: {},
@@ -182,29 +178,24 @@ const data = reactive({
   },
   rules: {
   }
-});
+})
 
-const { queryParams, form, rules } = toRefs(data);
+const { queryParams, form, rules } = toRefs(data)
 
 /** 查询节假日列表 */
 function getList() {
-  loading.value = true;
-  queryParams.value.params = {};
-  if (null != daterangeDate && '' != daterangeDate) {
-    queryParams.value.params["beginDate"] = daterangeDate.value[0];
-    queryParams.value.params["endDate"] = daterangeDate.value[1];
-  }
+  loading.value = true
   listHoliday(queryParams.value).then(response => {
-    holidayList.value = response.rows;
-    total.value = response.total;
-    loading.value = false;
-  });
+    holidayList.value = response.rows
+    total.value = response.total
+    loading.value = false
+  })
 }
 
 // 取消按钮
 function cancel() {
-  open.value = false;
-  reset();
+  open.value = false
+  reset()
 }
 
 // 表单重置
@@ -218,46 +209,45 @@ function reset() {
     createTime: null,
     updateBy: null,
     updateTime: null
-  };
-  proxy.resetForm("holidayRef");
+  }
+  proxy.resetForm("holidayRef")
 }
 
 /** 搜索按钮操作 */
 function handleQuery() {
-  queryParams.value.pageNum = 1;
-  getList();
+  queryParams.value.pageNum = 1
+  getList()
 }
 
 /** 重置按钮操作 */
 function resetQuery() {
-  daterangeDate.value = [];
-  proxy.resetForm("queryRef");
-  handleQuery();
+  proxy.resetForm("queryRef")
+  handleQuery()
 }
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.id);
-  single.value = selection.length != 1;
-  multiple.value = !selection.length;
+  ids.value = selection.map(item => item.id)
+  single.value = selection.length != 1
+  multiple.value = !selection.length
 }
 
 /** 新增按钮操作 */
 function handleAdd() {
-  reset();
-  open.value = true;
-  title.value = "添加节假日";
+  reset()
+  open.value = true
+  title.value = "添加节假日"
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
-  reset();
+  reset()
   const _id = row.id || ids.value
   getHoliday(_id).then(response => {
-    form.value = response.data;
-    open.value = true;
-    title.value = "修改节假日";
-  });
+    form.value = response.data
+    open.value = true
+    title.value = "修改节假日"
+  })
 }
 
 /** 提交按钮 */
@@ -266,30 +256,30 @@ function submitForm() {
     if (valid) {
       if (form.value.id != null) {
         updateHoliday(form.value).then(response => {
-          proxy.$modal.msgSuccess("修改成功");
-          open.value = false;
-          getList();
-        });
+          proxy.$modal.msgSuccess("修改成功")
+          open.value = false
+          getList()
+        })
       } else {
         addHoliday(form.value).then(response => {
-          proxy.$modal.msgSuccess("新增成功");
-          open.value = false;
-          getList();
-        });
+          proxy.$modal.msgSuccess("新增成功")
+          open.value = false
+          getList()
+        })
       }
     }
-  });
+  })
 }
 
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const _ids = row.id || ids.value;
+  const _ids = row.id || ids.value
   proxy.$modal.confirm('是否确认删除节假日编号为"' + _ids + '"的数据项？').then(function() {
-    return delHoliday(_ids);
+    return delHoliday(_ids)
   }).then(() => {
-    getList();
-    proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
+    getList()
+    proxy.$modal.msgSuccess("删除成功")
+  }).catch(() => {})
 }
 
 /** 导出按钮操作 */
@@ -299,5 +289,5 @@ function handleExport() {
   }, `holiday_${new Date().getTime()}.xlsx`)
 }
 
-getList();
+getList()
 </script>

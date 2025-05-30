@@ -8,34 +8,31 @@ import com.tdt.common.annotation.Excel;
 import com.tdt.common.core.domain.BaseEntity;
 
 /**
- * 审批对象 oa_approval
+ * 打卡记录对象 oa_attendance_record
  * 
  * @author hxw
  * @date 2025-05-30
  */
-public class OaApproval extends BaseEntity
+public class OaAttendanceRecord extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
     private Long id;
 
-    /** 审批类型（0补卡 1请假） */
-    @Excel(name = "审批类型", readConverterExp = "0=补卡,1=请假")
-    private String type;
-
-    /** 审批状态（0待审核 1通过，2：拒绝） */
-    @Excel(name = "审批状态", readConverterExp = "0=待审核,1=通过，2：拒绝")
-    private String status;
-
-    /** 开始时间 */
+    /** 打卡时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "开始时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "打卡时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date attendanceTime;
+
+    /** 上班时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "上班时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date startTime;
 
-    /** 结束时间 */
+    /** 下班时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "下班时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date endTime;
 
     public void setId(Long id) 
@@ -48,24 +45,14 @@ public class OaApproval extends BaseEntity
         return id;
     }
 
-    public void setType(String type) 
+    public void setAttendanceTime(Date attendanceTime) 
     {
-        this.type = type;
+        this.attendanceTime = attendanceTime;
     }
 
-    public String getType() 
+    public Date getAttendanceTime() 
     {
-        return type;
-    }
-
-    public void setStatus(String status) 
-    {
-        this.status = status;
-    }
-
-    public String getStatus() 
-    {
-        return status;
+        return attendanceTime;
     }
 
     public void setStartTime(Date startTime) 
@@ -93,14 +80,13 @@ public class OaApproval extends BaseEntity
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("createBy", getCreateBy())
-            .append("type", getType())
-            .append("status", getStatus())
+            .append("attendanceTime", getAttendanceTime())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
+            .append("remark", getRemark())
             .append("startTime", getStartTime())
             .append("endTime", getEndTime())
-            .append("remark", getRemark())
             .toString();
     }
 }
