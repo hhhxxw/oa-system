@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * 
  * @author ruoyi
  */
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class})
 
 public class TdtApplication
 {

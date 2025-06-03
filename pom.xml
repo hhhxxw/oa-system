@@ -35,6 +35,7 @@
         <logback.version>1.2.13</logback.version>
         <spring-security.version>5.7.12</spring-security.version>
         <spring-framework.version>5.3.39</spring-framework.version>
+        <flowable.version>6.7.2</flowable.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -217,12 +218,19 @@
                 <artifactId>tdt-common</artifactId>
                 <version>${tdt.version}</version>
             </dependency>
-
+<!--            oa模块-->
             <dependency>
                 <groupId>com.tdt</groupId>
                 <artifactId>oa</artifactId>
                 <version>${tdt.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter</artifactId>
+                <version>${flowable.version}</version>
+            </dependency>
+
 
 
         </dependencies>
