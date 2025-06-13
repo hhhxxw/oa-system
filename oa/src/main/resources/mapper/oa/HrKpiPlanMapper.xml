@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tdt.oa.mapper.HrKpiPlanMapper">
+    
+    <resultMap type="HrKpiPlan" id="HrKpiPlanResult">
+        <result property="id"    column="id"    />
+        <result property="sortNo"    column="sort_no"    />
+        <result property="planId"    column="plan_id"    />
+        <result property="title"    column="title"    />
+        <result property="beginTime"    column="begin_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="kpiRule"    column="kpi_rule"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="chargeUser"    column="charge_user"    />
+        <result property="userRole"    column="user_role"    />
+        <result property="deptRole"    column="dept_role"    />
+        <result property="levelRole"    column="level_role"    />
+        <result property="attachId"    column="attach_id"    />
+        <result property="msgType"    column="msg_type"    />
+        <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="orgId"    column="org_id"    />
+    </resultMap>
+
+    <sql id="selectHrKpiPlanVo">
+        select id, sort_no, plan_id, title, begin_time, end_time, kpi_rule, item_id, charge_user, user_role, dept_role, level_role, attach_id, msg_type, remark, status, create_user, create_time, org_id from hr_kpi_plan
+    </sql>
+
+    <select id="selectHrKpiPlanList" parameterType="HrKpiPlan" resultMap="HrKpiPlanResult">
+        <include refid="selectHrKpiPlanVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="beginTime != null  and beginTime != ''"> and begin_time = #{beginTime}</if>
+            <if test="endTime != null  and endTime != ''"> and end_time = #{endTime}</if>
+            <if test="msgType != null  and msgType != ''"> and msg_type = #{msgType}</if>
+        </where>
+    </select>
+    
+    <select id="selectHrKpiPlanById" parameterType="Long" resultMap="HrKpiPlanResult">
+        <include refid="selectHrKpiPlanVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHrKpiPlan" parameterType="HrKpiPlan" useGeneratedKeys="true" keyProperty="id">
+        insert into hr_kpi_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sortNo != null">sort_no,</if>
+            <if test="planId != null">plan_id,</if>
+            <if test="title != null">title,</if>
+            <if test="beginTime != null">begin_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="kpiRule != null">kpi_rule,</if>
+            <if test="itemId != null">item_id,</if>
+            <if test="chargeUser != null">charge_user,</if>
+            <if test="userRole != null">user_role,</if>
+            <if test="deptRole != null">dept_role,</if>
+            <if test="levelRole != null">level_role,</if>
+            <if test="attachId != null">attach_id,</if>
+            <if test="msgType != null">msg_type,</if>
+            <if test="remark != null">remark,</if>
+            <if test="status != null">status,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="orgId != null">org_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sortNo != null">#{sortNo},</if>
+            <if test="planId != null">#{planId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="beginTime != null">#{beginTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="kpiRule != null">#{kpiRule},</if>
+            <if test="itemId != null">#{itemId},</if>
+            <if test="chargeUser != null">#{chargeUser},</if>
+            <if test="userRole != null">#{userRole},</if>
+            <if test="deptRole != null">#{deptRole},</if>
+            <if test="levelRole != null">#{levelRole},</if>
+            <if test="attachId != null">#{attachId},</if>
+            <if test="msgType != null">#{msgType},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="orgId != null">#{orgId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHrKpiPlan" parameterType="HrKpiPlan">
+        update hr_kpi_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sortNo != null">sort_no = #{sortNo},</if>
+            <if test="planId != null">plan_id = #{planId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="beginTime != null">begin_time = #{beginTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="kpiRule != null">kpi_rule = #{kpiRule},</if>
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="chargeUser != null">charge_user = #{chargeUser},</if>
+            <if test="userRole != null">user_role = #{userRole},</if>
+            <if test="deptRole != null">dept_role = #{deptRole},</if>
+            <if test="levelRole != null">level_role = #{levelRole},</if>
+            <if test="attachId != null">attach_id = #{attachId},</if>
+            <if test="msgType != null">msg_type = #{msgType},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHrKpiPlanById" parameterType="Long">
+        delete from hr_kpi_plan where id = #{id}
+    </delete>
+
+    <delete id="deleteHrKpiPlanByIds" parameterType="String">
+        delete from hr_kpi_plan where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tdt.oa.mapper.HrKpiItemMapper">
+    
+    <resultMap type="HrKpiItem" id="HrKpiItemResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="sortNo"    column="sort_no"    />
+        <result property="title"    column="title"    />
+        <result property="kpiType"    column="kpi_type"    />
+        <result property="itemJson"    column="item_json"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="orgId"    column="org_id"    />
+    </resultMap>
+
+    <sql id="selectHrKpiItemVo">
+        select id, item_id, sort_no, title, kpi_type, item_json, remark, create_time, create_user, org_id from hr_kpi_item
+    </sql>
+
+    <select id="selectHrKpiItemList" parameterType="HrKpiItem" resultMap="HrKpiItemResult">
+        <include refid="selectHrKpiItemVo"/>
+        <where>  
+            <if test="itemId != null  and itemId != ''"> and item_id = #{itemId}</if>
+            <if test="sortNo != null "> and sort_no = #{sortNo}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="kpiType != null  and kpiType != ''"> and kpi_type = #{kpiType}</if>
+            <if test="itemJson != null  and itemJson != ''"> and item_json = #{itemJson}</if>
+        </where>
+    </select>
+    
+    <select id="selectHrKpiItemById" parameterType="Long" resultMap="HrKpiItemResult">
+        <include refid="selectHrKpiItemVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHrKpiItem" parameterType="HrKpiItem" useGeneratedKeys="true" keyProperty="id">
+        insert into hr_kpi_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="sortNo != null">sort_no,</if>
+            <if test="title != null">title,</if>
+            <if test="kpiType != null">kpi_type,</if>
+            <if test="itemJson != null">item_json,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="orgId != null">org_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="sortNo != null">#{sortNo},</if>
+            <if test="title != null">#{title},</if>
+            <if test="kpiType != null">#{kpiType},</if>
+            <if test="itemJson != null">#{itemJson},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="orgId != null">#{orgId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHrKpiItem" parameterType="HrKpiItem">
+        update hr_kpi_item
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="sortNo != null">sort_no = #{sortNo},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="kpiType != null">kpi_type = #{kpiType},</if>
+            <if test="itemJson != null">item_json = #{itemJson},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHrKpiItemById" parameterType="Long">
+        delete from hr_kpi_item where id = #{id}
+    </delete>
+
+    <delete id="deleteHrKpiItemByIds" parameterType="String">
+        delete from hr_kpi_item where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

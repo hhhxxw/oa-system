@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tdt.oa.mapper.HrKpiPlanRecordMapper">
+    
+    <resultMap type="HrKpiPlanRecord" id="HrKpiPlanRecordResult">
+        <result property="id"    column="id"    />
+        <result property="recordId"    column="record_id"    />
+        <result property="planId"    column="plan_id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="score"    column="score"    />
+        <result property="status"    column="status"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="chargeUser"    column="charge_user"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="orgId"    column="org_id"    />
+    </resultMap>
+
+    <sql id="selectHrKpiPlanRecordVo">
+        select id, record_id, plan_id, item_id, score, status, account_id, charge_user, remark, create_time, create_user, org_id from hr_kpi_plan_record
+    </sql>
+
+    <select id="selectHrKpiPlanRecordList" parameterType="HrKpiPlanRecord" resultMap="HrKpiPlanRecordResult">
+        <include refid="selectHrKpiPlanRecordVo"/>
+        <where>  
+            <if test="recordId != null  and recordId != ''"> and record_id = #{recordId}</if>
+            <if test="planId != null  and planId != ''"> and plan_id = #{planId}</if>
+            <if test="itemId != null  and itemId != ''"> and item_id = #{itemId}</if>
+            <if test="score != null "> and score = #{score}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="accountId != null  and accountId != ''"> and account_id = #{accountId}</if>
+            <if test="chargeUser != null  and chargeUser != ''"> and charge_user = #{chargeUser}</if>
+        </where>
+    </select>
+    
+    <select id="selectHrKpiPlanRecordById" parameterType="Long" resultMap="HrKpiPlanRecordResult">
+        <include refid="selectHrKpiPlanRecordVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHrKpiPlanRecord" parameterType="HrKpiPlanRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into hr_kpi_plan_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">record_id,</if>
+            <if test="planId != null">plan_id,</if>
+            <if test="itemId != null">item_id,</if>
+            <if test="score != null">score,</if>
+            <if test="status != null">status,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="chargeUser != null">charge_user,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="orgId != null">org_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">#{recordId},</if>
+            <if test="planId != null">#{planId},</if>
+            <if test="itemId != null">#{itemId},</if>
+            <if test="score != null">#{score},</if>
+            <if test="status != null">#{status},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="chargeUser != null">#{chargeUser},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="orgId != null">#{orgId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHrKpiPlanRecord" parameterType="HrKpiPlanRecord">
+        update hr_kpi_plan_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="recordId != null">record_id = #{recordId},</if>
+            <if test="planId != null">plan_id = #{planId},</if>
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="chargeUser != null">charge_user = #{chargeUser},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHrKpiPlanRecordById" parameterType="Long">
+        delete from hr_kpi_plan_record where id = #{id}
+    </delete>
+
+    <delete id="deleteHrKpiPlanRecordByIds" parameterType="String">
+        delete from hr_kpi_plan_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

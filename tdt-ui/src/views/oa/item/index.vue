@@ -1,28 +1,26 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="${comment}" prop="date">
-        <el-date-picker clearable
-          v-model="queryParams.date"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择${comment}">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="${comment}" prop="type">
-        <el-select v-model="queryParams.type" placeholder="请选择${comment}" clearable>
-          <el-option
-            v-for="dict in holiday_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="${comment}" prop="typeDes">
+      <el-form-item label="指标ID" prop="itemId">
         <el-input
-          v-model="queryParams.typeDes"
-          placeholder="请输入${comment}"
+          v-model="queryParams.itemId"
+          placeholder="请输入指标ID"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="排序号" prop="sortNo">
+        <el-input
+          v-model="queryParams.sortNo"
+          placeholder="请输入排序号"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="指标标题" prop="title">
+        <el-input
+          v-model="queryParams.title"
+          placeholder="请输入指标标题"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -40,7 +38,7 @@
           plain
           icon="Plus"
           @click="handleAdd"
-          v-hasPermi="['oa:holiday:add']"
+          v-hasPermi="['oa:item:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -50,7 +48,7 @@
           icon="Edit"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['oa:holiday:edit']"
+          v-hasPermi="['oa:item:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -60,7 +58,7 @@
           icon="Delete"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['oa:holiday:remove']"
+          v-hasPermi="['oa:item:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -69,41 +67,27 @@
           plain
           icon="Download"
           @click="handleExport"
-          v-hasPermi="['oa:holiday:export']"
+          v-hasPermi="['oa:item:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="holidayList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="itemList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="${comment}" align="center" prop="date" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.date, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="${comment}" align="center" prop="type">
-        <template #default="scope">
-          <dict-tag :options="holiday_type" :value="scope.row.type"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="${comment}" align="center" prop="typeDes" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="更新者" align="center" prop="updateBy" />
-      <el-table-column label="更新时间" align="center" prop="updateTime" width="180">
-        <template #default="scope">
-          <span>{{ parseTime(scope.row.updateTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="指标ID" align="center" prop="itemId" />
+      <el-table-column label="排序号" align="center" prop="sortNo" />
+      <el-table-column label="指标标题" align="center" prop="title" />
+      <el-table-column label="类型" align="center" prop="kpiType" />
+      <el-table-column label="指标内容" align="center" prop="itemJson" />
+      <el-table-column label="备注说明" align="center" prop="remark" />
+      <el-table-column label="${comment}" align="center" prop="createUser" />
+      <el-table-column label="${comment}" align="center" prop="orgId" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['oa:holiday:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['oa:holiday:remove']">删除</el-button>
+          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['oa:item:edit']">修改</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['oa:item:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -116,29 +100,29 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改节假日对话框 -->
+    <!-- 添加或修改人力考核指标集对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="holidayRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="${comment}" prop="date">
-          <el-date-picker clearable
-            v-model="form.date"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择${comment}">
-          </el-date-picker>
+      <el-form ref="itemRef" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="指标ID" prop="itemId">
+          <el-input v-model="form.itemId" placeholder="请输入指标ID" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="type">
-          <el-select v-model="form.type" placeholder="请选择${comment}">
-            <el-option
-              v-for="dict in holiday_type"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
+        <el-form-item label="排序号" prop="sortNo">
+          <el-input v-model="form.sortNo" placeholder="请输入排序号" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="typeDes">
-          <el-input v-model="form.typeDes" placeholder="请输入${comment}" />
+        <el-form-item label="指标标题" prop="title">
+          <el-input v-model="form.title" placeholder="请输入指标标题" />
+        </el-form-item>
+        <el-form-item label="指标内容" prop="itemJson">
+          <el-input v-model="form.itemJson" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="备注说明" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注说明" />
+        </el-form-item>
+        <el-form-item label="${comment}" prop="createUser">
+          <el-input v-model="form.createUser" placeholder="请输入${comment}" />
+        </el-form-item>
+        <el-form-item label="${comment}" prop="orgId">
+          <el-input v-model="form.orgId" placeholder="请输入${comment}" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -151,13 +135,12 @@
   </div>
 </template>
 
-<script setup name="Holiday">
-import { listHoliday, getHoliday, delHoliday, addHoliday, updateHoliday } from "@/api/oa/holiday"
+<script setup name="Item">
+import { listItem, getItem, delItem, addItem, updateItem } from "@/api/oa/item"
 
 const { proxy } = getCurrentInstance()
-const { holiday_type } = proxy.useDict('holiday_type')
 
-const holidayList = ref([])
+const itemList = ref([])
 const open = ref(false)
 const loading = ref(true)
 const showSearch = ref(true)
@@ -172,9 +155,11 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    date: null,
-    type: null,
-    typeDes: null,
+    itemId: null,
+    sortNo: null,
+    title: null,
+    kpiType: null,
+    itemJson: null,
   },
   rules: {
   }
@@ -182,11 +167,11 @@ const data = reactive({
 
 const { queryParams, form, rules } = toRefs(data)
 
-/** 查询节假日列表 */
+/** 查询人力考核指标集列表 */
 function getList() {
   loading.value = true
-  listHoliday(queryParams.value).then(response => {
-    holidayList.value = response.rows
+  listItem(queryParams.value).then(response => {
+    itemList.value = response.rows
     total.value = response.total
     loading.value = false
   })
@@ -202,15 +187,17 @@ function cancel() {
 function reset() {
   form.value = {
     id: null,
-    date: null,
-    type: null,
-    typeDes: null,
-    createBy: null,
+    itemId: null,
+    sortNo: null,
+    title: null,
+    kpiType: null,
+    itemJson: null,
+    remark: null,
     createTime: null,
-    updateBy: null,
-    updateTime: null
+    createUser: null,
+    orgId: null
   }
-  proxy.resetForm("holidayRef")
+  proxy.resetForm("itemRef")
 }
 
 /** 搜索按钮操作 */
@@ -236,32 +223,32 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset()
   open.value = true
-  title.value = "添加节假日"
+  title.value = "添加人力考核指标集"
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset()
   const _id = row.id || ids.value
-  getHoliday(_id).then(response => {
+  getItem(_id).then(response => {
     form.value = response.data
     open.value = true
-    title.value = "修改节假日"
+    title.value = "修改人力考核指标集"
   })
 }
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["holidayRef"].validate(valid => {
+  proxy.$refs["itemRef"].validate(valid => {
     if (valid) {
       if (form.value.id != null) {
-        updateHoliday(form.value).then(response => {
+        updateItem(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功")
           open.value = false
           getList()
         })
       } else {
-        addHoliday(form.value).then(response => {
+        addItem(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功")
           open.value = false
           getList()
@@ -274,8 +261,8 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _ids = row.id || ids.value
-  proxy.$modal.confirm('是否确认删除节假日编号为"' + _ids + '"的数据项？').then(function() {
-    return delHoliday(_ids)
+  proxy.$modal.confirm('是否确认删除人力考核指标集编号为"' + _ids + '"的数据项？').then(function() {
+    return delItem(_ids)
   }).then(() => {
     getList()
     proxy.$modal.msgSuccess("删除成功")
@@ -284,9 +271,9 @@ function handleDelete(row) {
 
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download('oa/holiday/export', {
+  proxy.download('oa/item/export', {
     ...queryParams.value
-  }, `holiday_${new Date().getTime()}.xlsx`)
+  }, `item_${new Date().getTime()}.xlsx`)
 }
 
 getList()

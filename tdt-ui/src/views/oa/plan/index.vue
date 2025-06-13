@@ -1,50 +1,26 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="${comment}" prop="recordId">
+      <el-form-item label="考核标题" prop="title">
         <el-input
-          v-model="queryParams.recordId"
-          placeholder="请输入${comment}"
+          v-model="queryParams.title"
+          placeholder="请输入考核标题"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="关联计划ID" prop="planId">
+      <el-form-item label="考核开始时间" prop="beginTime">
         <el-input
-          v-model="queryParams.planId"
-          placeholder="请输入关联计划ID"
+          v-model="queryParams.beginTime"
+          placeholder="请输入考核开始时间"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="关联考核指标" prop="itemId">
+      <el-form-item label="考核结束时间" prop="endTime">
         <el-input
-          v-model="queryParams.itemId"
-          placeholder="请输入关联考核指标"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="分数" prop="score">
-        <el-input
-          v-model="queryParams.score"
-          placeholder="请输入分数"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="被考核人" prop="accountId">
-        <el-input
-          v-model="queryParams.accountId"
-          placeholder="请输入被考核人"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="考核人" prop="chargeUser">
-        <el-input
-          v-model="queryParams.chargeUser"
-          placeholder="请输入考核人"
+          v-model="queryParams.endTime"
+          placeholder="请输入考核结束时间"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -62,7 +38,7 @@
           plain
           icon="Plus"
           @click="handleAdd"
-          v-hasPermi="['oa:record:add']"
+          v-hasPermi="['oa:plan:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -72,7 +48,7 @@
           icon="Edit"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['oa:record:edit']"
+          v-hasPermi="['oa:plan:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -82,7 +58,7 @@
           icon="Delete"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['oa:record:remove']"
+          v-hasPermi="['oa:plan:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -91,29 +67,36 @@
           plain
           icon="Download"
           @click="handleExport"
-          v-hasPermi="['oa:record:export']"
+          v-hasPermi="['oa:plan:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="recordList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="planList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="${comment}" align="center" prop="recordId" />
-      <el-table-column label="关联计划ID" align="center" prop="planId" />
-      <el-table-column label="关联考核指标" align="center" prop="itemId" />
-      <el-table-column label="分数" align="center" prop="score" />
-      <el-table-column label="0:未考核，1:已考核" align="center" prop="status" />
-      <el-table-column label="被考核人" align="center" prop="accountId" />
+      <el-table-column label="${comment}" align="center" prop="sortNo" />
+      <el-table-column label="${comment}" align="center" prop="planId" />
+      <el-table-column label="考核标题" align="center" prop="title" />
+      <el-table-column label="考核开始时间" align="center" prop="beginTime" />
+      <el-table-column label="考核结束时间" align="center" prop="endTime" />
+      <el-table-column label="考核规则" align="center" prop="kpiRule" />
+      <el-table-column label="考核项Id" align="center" prop="itemId" />
       <el-table-column label="考核人" align="center" prop="chargeUser" />
-      <el-table-column label="说明" align="center" prop="remark" />
+      <el-table-column label="被考核人" align="center" prop="userRole" />
+      <el-table-column label="被考核人" align="center" prop="deptRole" />
+      <el-table-column label="被考核人" align="center" prop="levelRole" />
+      <el-table-column label="相关附件" align="center" prop="attachId" />
+      <el-table-column label="消息提醒方式" align="center" prop="msgType" />
+      <el-table-column label="备注说明" align="center" prop="remark" />
+      <el-table-column label="0:未生效，1：生效中，2：终止" align="center" prop="status" />
       <el-table-column label="${comment}" align="center" prop="createUser" />
       <el-table-column label="${comment}" align="center" prop="orgId" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['oa:record:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['oa:record:remove']">删除</el-button>
+          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['oa:plan:edit']">修改</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['oa:plan:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -126,29 +109,47 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改人力资源考核详情对话框 -->
+    <!-- 添加或修改考核计划对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="recordRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="${comment}" prop="recordId">
-          <el-input v-model="form.recordId" placeholder="请输入${comment}" />
+      <el-form ref="planRef" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="${comment}" prop="sortNo">
+          <el-input v-model="form.sortNo" placeholder="请输入${comment}" />
         </el-form-item>
-        <el-form-item label="关联计划ID" prop="planId">
-          <el-input v-model="form.planId" placeholder="请输入关联计划ID" />
+        <el-form-item label="${comment}" prop="planId">
+          <el-input v-model="form.planId" placeholder="请输入${comment}" />
         </el-form-item>
-        <el-form-item label="关联考核指标" prop="itemId">
-          <el-input v-model="form.itemId" placeholder="请输入关联考核指标" />
+        <el-form-item label="考核标题" prop="title">
+          <el-input v-model="form.title" placeholder="请输入考核标题" />
         </el-form-item>
-        <el-form-item label="分数" prop="score">
-          <el-input v-model="form.score" placeholder="请输入分数" />
+        <el-form-item label="考核开始时间" prop="beginTime">
+          <el-input v-model="form.beginTime" placeholder="请输入考核开始时间" />
         </el-form-item>
-        <el-form-item label="被考核人" prop="accountId">
-          <el-input v-model="form.accountId" placeholder="请输入被考核人" />
+        <el-form-item label="考核结束时间" prop="endTime">
+          <el-input v-model="form.endTime" placeholder="请输入考核结束时间" />
+        </el-form-item>
+        <el-form-item label="考核规则" prop="kpiRule">
+          <el-input v-model="form.kpiRule" placeholder="请输入考核规则" />
+        </el-form-item>
+        <el-form-item label="考核项Id" prop="itemId">
+          <el-input v-model="form.itemId" placeholder="请输入考核项Id" />
         </el-form-item>
         <el-form-item label="考核人" prop="chargeUser">
           <el-input v-model="form.chargeUser" placeholder="请输入考核人" />
         </el-form-item>
-        <el-form-item label="说明" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="被考核人" prop="userRole">
+          <el-input v-model="form.userRole" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="被考核人" prop="deptRole">
+          <el-input v-model="form.deptRole" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="被考核人" prop="levelRole">
+          <el-input v-model="form.levelRole" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="相关附件" prop="attachId">
+          <el-input v-model="form.attachId" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="备注说明" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注说明" />
         </el-form-item>
         <el-form-item label="${comment}" prop="createUser">
           <el-input v-model="form.createUser" placeholder="请输入${comment}" />
@@ -167,12 +168,12 @@
   </div>
 </template>
 
-<script setup name="Record">
-import { listRecord, getRecord, delRecord, addRecord, updateRecord } from "@/api/oa/record"
+<script setup name="Plan">
+import { listPlan, getPlan, delPlan, addPlan, updatePlan } from "@/api/oa/plan"
 
 const { proxy } = getCurrentInstance()
 
-const recordList = ref([])
+const planList = ref([])
 const open = ref(false)
 const loading = ref(true)
 const showSearch = ref(true)
@@ -187,13 +188,10 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    recordId: null,
-    planId: null,
-    itemId: null,
-    score: null,
-    status: null,
-    accountId: null,
-    chargeUser: null,
+    title: null,
+    beginTime: null,
+    endTime: null,
+    msgType: null,
   },
   rules: {
   }
@@ -201,11 +199,11 @@ const data = reactive({
 
 const { queryParams, form, rules } = toRefs(data)
 
-/** 查询人力资源考核详情列表 */
+/** 查询考核计划列表 */
 function getList() {
   loading.value = true
-  listRecord(queryParams.value).then(response => {
-    recordList.value = response.rows
+  listPlan(queryParams.value).then(response => {
+    planList.value = response.rows
     total.value = response.total
     loading.value = false
   })
@@ -221,19 +219,26 @@ function cancel() {
 function reset() {
   form.value = {
     id: null,
-    recordId: null,
+    sortNo: null,
     planId: null,
+    title: null,
+    beginTime: null,
+    endTime: null,
+    kpiRule: null,
     itemId: null,
-    score: null,
-    status: null,
-    accountId: null,
     chargeUser: null,
+    userRole: null,
+    deptRole: null,
+    levelRole: null,
+    attachId: null,
+    msgType: null,
     remark: null,
-    createTime: null,
+    status: null,
     createUser: null,
+    createTime: null,
     orgId: null
   }
-  proxy.resetForm("recordRef")
+  proxy.resetForm("planRef")
 }
 
 /** 搜索按钮操作 */
@@ -259,32 +264,32 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset()
   open.value = true
-  title.value = "添加人力资源考核详情"
+  title.value = "添加考核计划"
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset()
   const _id = row.id || ids.value
-  getRecord(_id).then(response => {
+  getPlan(_id).then(response => {
     form.value = response.data
     open.value = true
-    title.value = "修改人力资源考核详情"
+    title.value = "修改考核计划"
   })
 }
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["recordRef"].validate(valid => {
+  proxy.$refs["planRef"].validate(valid => {
     if (valid) {
       if (form.value.id != null) {
-        updateRecord(form.value).then(response => {
+        updatePlan(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功")
           open.value = false
           getList()
         })
       } else {
-        addRecord(form.value).then(response => {
+        addPlan(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功")
           open.value = false
           getList()
@@ -297,8 +302,8 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _ids = row.id || ids.value
-  proxy.$modal.confirm('是否确认删除人力资源考核详情编号为"' + _ids + '"的数据项？').then(function() {
-    return delRecord(_ids)
+  proxy.$modal.confirm('是否确认删除考核计划编号为"' + _ids + '"的数据项？').then(function() {
+    return delPlan(_ids)
   }).then(() => {
     getList()
     proxy.$modal.msgSuccess("删除成功")
@@ -307,9 +312,9 @@ function handleDelete(row) {
 
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download('oa/record/export', {
+  proxy.download('oa/plan/export', {
     ...queryParams.value
-  }, `record_${new Date().getTime()}.xlsx`)
+  }, `plan_${new Date().getTime()}.xlsx`)
 }
 
 getList()

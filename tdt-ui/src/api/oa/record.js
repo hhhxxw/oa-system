@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询打卡记录列表
+// 查询人力资源考核详情列表
 export function listRecord(query) {
   return request({
     url: '/oa/record/list',
@@ -9,7 +9,7 @@ export function listRecord(query) {
   })
 }
 
-// 查询打卡记录详细
+// 查询人力资源考核详情详细
 export function getRecord(id) {
   return request({
     url: '/oa/record/' + id,
@@ -17,7 +17,7 @@ export function getRecord(id) {
   })
 }
 
-// 新增打卡记录
+// 新增人力资源考核详情
 export function addRecord(data) {
   return request({
     url: '/oa/record',
@@ -26,7 +26,7 @@ export function addRecord(data) {
   })
 }
 
-// 修改打卡记录
+// 修改人力资源考核详情
 export function updateRecord(data) {
   return request({
     url: '/oa/record',
@@ -35,7 +35,7 @@ export function updateRecord(data) {
   })
 }
 
-// 删除打卡记录
+// 删除人力资源考核详情
 export function delRecord(id) {
   return request({
     url: '/oa/record/' + id,

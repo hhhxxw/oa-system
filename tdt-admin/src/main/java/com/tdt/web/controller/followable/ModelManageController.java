@@ -22,7 +22,6 @@ import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ModelQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
@@ -119,6 +118,12 @@ public class ModelManageController extends BaseController {
         }
     }
 
+    /**
+     * 部署模型
+     * @date 2025-06-05 08:49
+     * @param modelId
+     * @return
+     */
     @RequestMapping("/deploy/{modelId}")
     @ResponseBody
     public AjaxResult modelDeployment(@PathVariable String modelId) {
@@ -140,6 +145,12 @@ public class ModelManageController extends BaseController {
         }
     }
 
+    /**
+     * 根据id删除模型
+     * @date 2025-06-05 08:49
+     * @param modelId
+     * @return
+     */
     @PostMapping("/remove/{modelId}")
     @ResponseBody
     public AjaxResult removeModel(@PathVariable String modelId) {
@@ -147,6 +158,13 @@ public class ModelManageController extends BaseController {
         return AjaxResult.success("删除成功");
     }
 
+    /**
+     * 根据id导出模型
+     * @date 2025-06-05 08:50
+     * @param modelId
+     * @param response
+     * @throws IOException
+     */
     @GetMapping("/export/{modelId}")
     public void modelExport(@PathVariable String modelId, HttpServletResponse response) throws IOException {
         byte[] modelData = repositoryService.getModelEditorSource(modelId);

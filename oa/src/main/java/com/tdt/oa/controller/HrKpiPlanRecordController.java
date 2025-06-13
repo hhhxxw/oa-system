@@ -16,89 +16,89 @@ import com.tdt.common.annotation.Log;
 import com.tdt.common.core.controller.BaseController;
 import com.tdt.common.core.domain.AjaxResult;
 import com.tdt.common.enums.BusinessType;
-import com.tdt.oa.domain.OaAttendanceRecord;
-import com.tdt.oa.service.IOaAttendanceRecordService;
+import com.tdt.oa.domain.HrKpiPlanRecord;
+import com.tdt.oa.service.IHrKpiPlanRecordService;
 import com.tdt.common.utils.poi.ExcelUtil;
 import com.tdt.common.core.page.TableDataInfo;
 
 /**
- * 打卡记录Controller
+ * 人力资源考核详情Controller
  * 
  * @author hxw
- * @date 2025-05-30
+ * @date 2025-06-12
  */
 @RestController
 @RequestMapping("/oa/record")
-public class OaAttendanceRecordController extends BaseController
+public class HrKpiPlanRecordController extends BaseController
 {
     @Autowired
-    private IOaAttendanceRecordService oaAttendanceRecordService;
+    private IHrKpiPlanRecordService hrKpiPlanRecordService;
 
     /**
-     * 查询打卡记录列表
+     * 查询人力资源考核详情列表
      */
     @PreAuthorize("@ss.hasPermi('oa:record:list')")
     @GetMapping("/list")
-    public TableDataInfo list(OaAttendanceRecord oaAttendanceRecord)
+    public TableDataInfo list(HrKpiPlanRecord hrKpiPlanRecord)
     {
         startPage();
-        List<OaAttendanceRecord> list = oaAttendanceRecordService.selectOaAttendanceRecordList(oaAttendanceRecord);
+        List<HrKpiPlanRecord> list = hrKpiPlanRecordService.selectHrKpiPlanRecordList(hrKpiPlanRecord);
         return getDataTable(list);
     }
 
     /**
-     * 导出打卡记录列表
+     * 导出人力资源考核详情列表
      */
     @PreAuthorize("@ss.hasPermi('oa:record:export')")
-    @Log(title = "打卡记录", businessType = BusinessType.EXPORT)
+    @Log(title = "人力资源考核详情", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, OaAttendanceRecord oaAttendanceRecord)
+    public void export(HttpServletResponse response, HrKpiPlanRecord hrKpiPlanRecord)
     {
-        List<OaAttendanceRecord> list = oaAttendanceRecordService.selectOaAttendanceRecordList(oaAttendanceRecord);
-        ExcelUtil<OaAttendanceRecord> util = new ExcelUtil<OaAttendanceRecord>(OaAttendanceRecord.class);
-        util.exportExcel(response, list, "打卡记录数据");
+        List<HrKpiPlanRecord> list = hrKpiPlanRecordService.selectHrKpiPlanRecordList(hrKpiPlanRecord);
+        ExcelUtil<HrKpiPlanRecord> util = new ExcelUtil<HrKpiPlanRecord>(HrKpiPlanRecord.class);
+        util.exportExcel(response, list, "人力资源考核详情数据");
     }
 
     /**
-     * 获取打卡记录详细信息
+     * 获取人力资源考核详情详细信息
      */
     @PreAuthorize("@ss.hasPermi('oa:record:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
-        return success(oaAttendanceRecordService.selectOaAttendanceRecordById(id));
+        return success(hrKpiPlanRecordService.selectHrKpiPlanRecordById(id));
     }
 
     /**
-     * 新增打卡记录
+     * 新增人力资源考核详情
      */
     @PreAuthorize("@ss.hasPermi('oa:record:add')")
-    @Log(title = "打卡记录", businessType = BusinessType.INSERT)
+    @Log(title = "人力资源考核详情", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody OaAttendanceRecord oaAttendanceRecord)
+    public AjaxResult add(@RequestBody HrKpiPlanRecord hrKpiPlanRecord)
     {
-        return toAjax(oaAttendanceRecordService.insertOaAttendanceRecord(oaAttendanceRecord));
+        return toAjax(hrKpiPlanRecordService.insertHrKpiPlanRecord(hrKpiPlanRecord));
     }
 
     /**
-     * 修改打卡记录
+     * 修改人力资源考核详情
      */
     @PreAuthorize("@ss.hasPermi('oa:record:edit')")
-    @Log(title = "打卡记录", businessType = BusinessType.UPDATE)
+    @Log(title = "人力资源考核详情", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody OaAttendanceRecord oaAttendanceRecord)
+    public AjaxResult edit(@RequestBody HrKpiPlanRecord hrKpiPlanRecord)
     {
-        return toAjax(oaAttendanceRecordService.updateOaAttendanceRecord(oaAttendanceRecord));
+        return toAjax(hrKpiPlanRecordService.updateHrKpiPlanRecord(hrKpiPlanRecord));
     }
 
     /**
-     * 删除打卡记录
+     * 删除人力资源考核详情
      */
     @PreAuthorize("@ss.hasPermi('oa:record:remove')")
-    @Log(title = "打卡记录", businessType = BusinessType.DELETE)
+    @Log(title = "人力资源考核详情", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
-        return toAjax(oaAttendanceRecordService.deleteOaAttendanceRecordByIds(ids));
+        return toAjax(hrKpiPlanRecordService.deleteHrKpiPlanRecordByIds(ids));
     }
 }
