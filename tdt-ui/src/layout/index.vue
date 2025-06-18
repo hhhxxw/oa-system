@@ -10,7 +10,7 @@
 
       <app-main />
       <settings ref="settingRef" />
-      <!--        <span>这只是个测试</span>-->
+
     </div>
   </div>
 </template>
