@@ -4,6 +4,7 @@
     <div :class="{ 'fixed-header': fixedHeader }">
       <navbar @setLayout="setLayout" />
 <!--      <tags-view v-if="needTagsView" />-->
+<!--      <scan>这是一个测试</scan>-->
     </div>
     <sidebar v-if="!sidebar.hide" class="sidebar-container" />
     <div :class="{ hasTagsView: needTagsView, sidebarHide: sidebar.hide }" class="main-container">
