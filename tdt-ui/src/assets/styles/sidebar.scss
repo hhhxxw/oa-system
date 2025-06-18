@@ -19,7 +19,7 @@
     height: 100%;
     position: fixed;
     font-size: 0px;
-    top: 0;
+    top: $navbar-height;
     bottom: 0;
     left: 0;
     z-index: 1001;
@@ -185,9 +185,14 @@
 
     &.hideSidebar {
       .sidebar-container {
-        pointer-events: none;
-        transition-duration: 0.3s;
-        transform: translate3d(-$base-sidebar-width, 0, 0);
+        position: fixed;
+        top: 50px; /* 从导航栏下方开始 */
+        left: 0;
+        bottom: 0;
+        width: 210px !important;
+        height: calc(100vh - 50px);
+        z-index: 10;
+        transition: width 0.28s;
       }
     }
   }

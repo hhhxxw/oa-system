@@ -1,12 +1,13 @@
 <template>
   <div :class="classObj" class="app-wrapper" :style="{ '--current-color': theme }">
     <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
+    <div :class="{ 'fixed-header': fixedHeader }">
+      <navbar @setLayout="setLayout" />
+<!--      <tags-view v-if="needTagsView" />-->
+    </div>
     <sidebar v-if="!sidebar.hide" class="sidebar-container" />
     <div :class="{ hasTagsView: needTagsView, sidebarHide: sidebar.hide }" class="main-container">
-      <div :class="{ 'fixed-header': fixedHeader }">
-        <navbar @setLayout="setLayout" />
-        <tags-view v-if="needTagsView" />
-      </div>
+
       <app-main />
       <settings ref="settingRef" />
     </div>
@@ -88,14 +89,17 @@ function setLayout() {
   z-index: 999;
 }
 
-.fixed-header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 9;
-  width: calc(100% - #{$base-sidebar-width});
-  transition: width 0.28s;
-}
+  .fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;  /* 覆盖整个宽度 */
+    right: 0;
+    z-index: 9;
+    width: 100% !important;
+    height: $navbar-height;
+    background: #1d2d40; /* 深绿色背景匹配侧边栏 */
+    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  }
 
 .hideSidebar .fixed-header {
   width: calc(100% - 54px);

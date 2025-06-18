@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'has-logo': showLogo }" :style="{ backgroundColor: sideTheme === 'theme-dark' ? variables.menuBackground : variables.menuLightBackground }">
-    <logo v-if="showLogo" :collapse="isCollapse" />
+<!--    <logo v-if="showLogo" :collapse="isCollapse" />-->
     <el-scrollbar :class="sideTheme" wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"

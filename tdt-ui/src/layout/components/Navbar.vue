@@ -1,10 +1,15 @@
 <template>
   <div class="navbar">
+    <div class="logo-wrapper">
+      <img :src="logo" class="navbar-logo">
+      <span class="system-title">天地图管理系统</span>
+    </div>
     <hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" v-if="!settingsStore.topNav" />
     <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav" />
 
     <div class="right-menu">
+
       <template v-if="appStore.device !== 'mobile'">
         <header-search id="header-search" class="right-menu-item" />
 
@@ -49,6 +54,7 @@ import SizeSelect from '@/components/SizeSelect'
 import HeaderSearch from '@/components/HeaderSearch'
 import RuoYiGit from '@/components/RuoYi/Git'
 import RuoYiDoc from '@/components/RuoYi/Doc'
+import logo from '@/assets/logo/logo.png'
 import useAppStore from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
@@ -94,12 +100,34 @@ function setLayout() {
 
 <style lang='scss' scoped>
 .navbar {
+  display: flex;  // 新增
+  align-items: center;  // 新增
+  padding-left: 20px;  // 新增整体左边距
   height: 50px;
   overflow: hidden;
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    margin-left: 10px;  // 新增Logo与左侧边距
+
+    .navbar-logo {
+      width: 28px;
+      height: 28px;
+      margin-right: 10px;
+    }
+
+    .system-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #000101;
+      white-space: nowrap;
+    }
+  }
   .hamburger-container {
     line-height: 46px;
     height: 100%;
@@ -114,7 +142,8 @@ function setLayout() {
   }
 
   .breadcrumb-container {
-    float: left;
+    flex: 1;  // 新增
+    padding-left: 10px;  // 新增
   }
 
   .topmenu-container {
@@ -128,7 +157,8 @@ function setLayout() {
   }
 
   .right-menu {
-    float: right;
+    margin-right: 0px;  // 调整
+    // 移除float: right
     height: 100%;
     line-height: 50px;
     display: flex;

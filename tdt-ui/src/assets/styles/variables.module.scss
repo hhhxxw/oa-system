@@ -9,17 +9,17 @@ $yellow: #FEC171;
 $panGreen: #30B08F;
 
 // 默认菜单主题风格
-$base-menu-color: #bfcbd9;
-$base-menu-color-active: #f4f4f5;
-$base-menu-background: #304156;
+$base-menu-color: #fdfdfd;
+$base-menu-color-active: #fdfdfd;
+$base-menu-background: #3d5052;
 $base-logo-title-color: #ffffff;
 
 $base-menu-light-color: rgba(0, 0, 0, 0.7);
-$base-menu-light-background: #ffffff;
+$base-menu-light-background: #fcfcfc;
 $base-logo-light-title-color: #001529;
 
-$base-sub-menu-background: #1f2d3d;
-$base-sub-menu-hover: #001528;
+$base-sub-menu-background: #2a3a3c;
+$base-sub-menu-hover: #48676a;
 
 // 自定义暗色菜单风格
 /**
@@ -43,6 +43,8 @@ $--color-danger: #F56C6C;
 $--color-info: #909399;
 
 $base-sidebar-width: 200px;
+$navbar-height: 50px; // 导航栏高度
+$sideBarWidth: 210px; // 侧边栏宽度
 
 // the :export directive is the magic sauce for webpack
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
@@ -55,6 +57,8 @@ $base-sidebar-width: 200px;
   subMenuBackground: $base-sub-menu-background;
   subMenuHover: $base-sub-menu-hover;
   sideBarWidth: $base-sidebar-width;
+  navbar-height:$navbar-height; // 导航栏高度
+  sideBarWidth:$sideBarWidth; // 侧边栏宽度
   logoTitleColor: $base-logo-title-color;
   logoLightTitleColor: $base-logo-light-title-color;
   primaryColor: $--color-primary;
