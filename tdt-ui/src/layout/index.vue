@@ -29,7 +29,7 @@ const sideTheme = computed(() => settingsStore.sideTheme);
 const sidebar = computed(() => useAppStore().sidebar);
 const device = computed(() => useAppStore().device);
 const needTagsView = computed(() => settingsStore.tagsView);
-const fixedHeader = computed(() => settingsStore.fixedHeader);
+const fixedHeader = computed(() => true);
 
 const classObj = computed(() => ({
   hideSidebar: !sidebar.value.opened,
