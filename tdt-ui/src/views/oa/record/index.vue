@@ -1,38 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="${comment}" prop="recordId">
-        <el-input
-          v-model="queryParams.recordId"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="关联计划ID" prop="planId">
-        <el-input
-          v-model="queryParams.planId"
-          placeholder="请输入关联计划ID"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="关联考核指标" prop="itemId">
-        <el-input
-          v-model="queryParams.itemId"
-          placeholder="请输入关联考核指标"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="分数" prop="score">
-        <el-input
-          v-model="queryParams.score"
-          placeholder="请输入分数"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+
       <el-form-item label="被考核人" prop="accountId">
         <el-input
           v-model="queryParams.accountId"
@@ -99,8 +68,6 @@
 
     <el-table v-loading="loading" :data="recordList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="${comment}" align="center" prop="recordId" />
       <el-table-column label="关联计划ID" align="center" prop="planId" />
       <el-table-column label="关联考核指标" align="center" prop="itemId" />
       <el-table-column label="分数" align="center" prop="score" />
@@ -108,8 +75,6 @@
       <el-table-column label="被考核人" align="center" prop="accountId" />
       <el-table-column label="考核人" align="center" prop="chargeUser" />
       <el-table-column label="说明" align="center" prop="remark" />
-      <el-table-column label="${comment}" align="center" prop="createUser" />
-      <el-table-column label="${comment}" align="center" prop="orgId" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['oa:record:edit']">修改</el-button>

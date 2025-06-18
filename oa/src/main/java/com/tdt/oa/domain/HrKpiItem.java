@@ -1,15 +1,15 @@
 package com.tdt.oa.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.tdt.common.annotation.Excel;
 import com.tdt.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 人力考核指标集对象 hr_kpi_item
  * 
- * @author ruoyi
- * @date 2025-06-12
+ * @author hxw
+ * @date 2025-06-13
  */
 public class HrKpiItem extends BaseEntity
 {
@@ -19,15 +19,13 @@ public class HrKpiItem extends BaseEntity
     private Long id;
 
     /** 指标ID */
-    @Excel(name = "指标ID")
     private String itemId;
 
     /** 排序号 */
-    @Excel(name = "排序号")
-    private Long sortNo;
+    private Integer sortNo;
 
-    /** 指标标题 */
-    @Excel(name = "指标标题")
+    /** 绩效指标 */
+    @Excel(name = "绩效指标")
     private String title;
 
     /** 类型 */
@@ -35,7 +33,6 @@ public class HrKpiItem extends BaseEntity
     private String kpiType;
 
     /** 指标内容 */
-    @Excel(name = "指标内容")
     private String itemJson;
 
     /** $column.columnComment */
@@ -43,85 +40,84 @@ public class HrKpiItem extends BaseEntity
     private String createUser;
 
     /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String orgId;
 
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
 
-    public void setItemId(String itemId) 
+    public void setItemId(String itemId)
     {
         this.itemId = itemId;
     }
 
-    public String getItemId() 
+    public String getItemId()
     {
         return itemId;
     }
 
-    public void setSortNo(Long sortNo) 
+    public void setSortNo(Integer sortNo)
     {
         this.sortNo = sortNo;
     }
 
-    public Long getSortNo() 
+    public Integer getSortNo()
     {
         return sortNo;
     }
 
-    public void setTitle(String title) 
+    public void setTitle(String title)
     {
         this.title = title;
     }
 
-    public String getTitle() 
+    public String getTitle()
     {
         return title;
     }
 
-    public void setKpiType(String kpiType) 
+    public void setKpiType(String kpiType)
     {
         this.kpiType = kpiType;
     }
 
-    public String getKpiType() 
+    public String getKpiType()
     {
         return kpiType;
     }
 
-    public void setItemJson(String itemJson) 
+    public void setItemJson(String itemJson)
     {
         this.itemJson = itemJson;
     }
 
-    public String getItemJson() 
+    public String getItemJson()
     {
         return itemJson;
     }
 
-    public void setCreateUser(String createUser) 
+    public void setCreateUser(String createUser)
     {
         this.createUser = createUser;
     }
 
-    public String getCreateUser() 
+    public String getCreateUser()
     {
         return createUser;
     }
 
-    public void setOrgId(String orgId) 
+    public void setOrgId(String orgId)
     {
         this.orgId = orgId;
     }
 
-    public String getOrgId() 
+    public String getOrgId()
     {
         return orgId;
     }

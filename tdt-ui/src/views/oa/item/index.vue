@@ -1,29 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="指标ID" prop="itemId">
-        <el-input
-          v-model="queryParams.itemId"
-          placeholder="请输入指标ID"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="排序号" prop="sortNo">
-        <el-input
-          v-model="queryParams.sortNo"
-          placeholder="请输入排序号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="指标标题" prop="title">
-        <el-input
-          v-model="queryParams.title"
-          placeholder="请输入指标标题"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+      <el-form-item label="类型" prop="kpiType">
+        <el-select v-model="queryParams.kpiType" placeholder="请选择类型" clearable>
+          <el-option
+            v-for="dict in indicator_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -75,15 +61,15 @@
 
     <el-table v-loading="loading" :data="itemList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="指标ID" align="center" prop="itemId" />
-      <el-table-column label="排序号" align="center" prop="sortNo" />
-      <el-table-column label="指标标题" align="center" prop="title" />
-      <el-table-column label="类型" align="center" prop="kpiType" />
-      <el-table-column label="指标内容" align="center" prop="itemJson" />
+      <el-table-column label="Id" align="center" prop="id" />
+      <el-table-column label="绩效指标" align="center" prop="title" />
+      <el-table-column label="类型" align="center" prop="kpiType">
+        <template #default="scope">
+          <dict-tag :options="indicator_type" :value="scope.row.kpiType"/>
+        </template>
+      </el-table-column>
       <el-table-column label="备注说明" align="center" prop="remark" />
-      <el-table-column label="${comment}" align="center" prop="createUser" />
-      <el-table-column label="${comment}" align="center" prop="orgId" />
+      <el-table-column label="创建时间" align="center" prop="createUser" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['oa:item:edit']">修改</el-button>
@@ -103,26 +89,21 @@
     <!-- 添加或修改人力考核指标集对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="itemRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="指标ID" prop="itemId">
-          <el-input v-model="form.itemId" placeholder="请输入指标ID" />
+        <el-form-item label="绩效指标" prop="title">
+          <el-input v-model="form.title" placeholder="请输入绩效指标" />
         </el-form-item>
-        <el-form-item label="排序号" prop="sortNo">
-          <el-input v-model="form.sortNo" placeholder="请输入排序号" />
-        </el-form-item>
-        <el-form-item label="指标标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入指标标题" />
-        </el-form-item>
-        <el-form-item label="指标内容" prop="itemJson">
-          <el-input v-model="form.itemJson" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="类型" prop="kpiType">
+          <el-select v-model="form.kpiType" placeholder="请选择类型">
+            <el-option
+              v-for="dict in indicator_type"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="备注说明" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注说明" />
-        </el-form-item>
-        <el-form-item label="${comment}" prop="createUser">
-          <el-input v-model="form.createUser" placeholder="请输入${comment}" />
-        </el-form-item>
-        <el-form-item label="${comment}" prop="orgId">
-          <el-input v-model="form.orgId" placeholder="请输入${comment}" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -139,6 +120,7 @@
 import { listItem, getItem, delItem, addItem, updateItem } from "@/api/oa/item"
 
 const { proxy } = getCurrentInstance()
+const { indicator_type } = proxy.useDict('indicator_type')
 
 const itemList = ref([])
 const open = ref(false)
@@ -155,11 +137,7 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    itemId: null,
-    sortNo: null,
-    title: null,
     kpiType: null,
-    itemJson: null,
   },
   rules: {
   }

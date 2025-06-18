@@ -244,6 +244,7 @@
         <module>tdt-generator</module>
         <module>tdt-common</module>
         <module>oa</module>
+        <module>tdt-office</module>
     </modules>
     <packaging>pom</packaging>
 

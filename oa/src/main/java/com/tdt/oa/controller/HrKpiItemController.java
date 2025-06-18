@@ -24,8 +24,8 @@ import com.tdt.common.core.page.TableDataInfo;
 /**
  * 人力考核指标集Controller
  * 
- * @author ruoyi
- * @date 2025-06-12
+ * @author hxw
+ * @date 2025-06-13
  */
 @RestController
 @RequestMapping("/oa/item")

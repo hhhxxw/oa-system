@@ -24,11 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectHrKpiItemList" parameterType="HrKpiItem" resultMap="HrKpiItemResult">
         <include refid="selectHrKpiItemVo"/>
         <where>  
-            <if test="itemId != null  and itemId != ''"> and item_id = #{itemId}</if>
-            <if test="sortNo != null "> and sort_no = #{sortNo}</if>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
             <if test="kpiType != null  and kpiType != ''"> and kpi_type = #{kpiType}</if>
-            <if test="itemJson != null  and itemJson != ''"> and item_json = #{itemJson}</if>
         </where>
     </select>
     

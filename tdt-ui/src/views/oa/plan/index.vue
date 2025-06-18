@@ -75,9 +75,6 @@
 
     <el-table v-loading="loading" :data="planList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="${comment}" align="center" prop="sortNo" />
-      <el-table-column label="${comment}" align="center" prop="planId" />
       <el-table-column label="考核标题" align="center" prop="title" />
       <el-table-column label="考核开始时间" align="center" prop="beginTime" />
       <el-table-column label="考核结束时间" align="center" prop="endTime" />
@@ -90,9 +87,6 @@
       <el-table-column label="相关附件" align="center" prop="attachId" />
       <el-table-column label="消息提醒方式" align="center" prop="msgType" />
       <el-table-column label="备注说明" align="center" prop="remark" />
-      <el-table-column label="0:未生效，1：生效中，2：终止" align="center" prop="status" />
-      <el-table-column label="${comment}" align="center" prop="createUser" />
-      <el-table-column label="${comment}" align="center" prop="orgId" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['oa:plan:edit']">修改</el-button>
@@ -112,12 +106,7 @@
     <!-- 添加或修改考核计划对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="planRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="${comment}" prop="sortNo">
-          <el-input v-model="form.sortNo" placeholder="请输入${comment}" />
-        </el-form-item>
-        <el-form-item label="${comment}" prop="planId">
-          <el-input v-model="form.planId" placeholder="请输入${comment}" />
-        </el-form-item>
+
         <el-form-item label="考核标题" prop="title">
           <el-input v-model="form.title" placeholder="请输入考核标题" />
         </el-form-item>
@@ -151,12 +140,7 @@
         <el-form-item label="备注说明" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注说明" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="createUser">
-          <el-input v-model="form.createUser" placeholder="请输入${comment}" />
-        </el-form-item>
-        <el-form-item label="${comment}" prop="orgId">
-          <el-input v-model="form.orgId" placeholder="请输入${comment}" />
-        </el-form-item>
+
       </el-form>
       <template #footer>
         <div class="dialog-footer">

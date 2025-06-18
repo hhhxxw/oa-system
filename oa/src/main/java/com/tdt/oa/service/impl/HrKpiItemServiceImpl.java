@@ -11,8 +11,8 @@ import com.tdt.oa.service.IHrKpiItemService;
 /**
  * 人力考核指标集Service业务层处理
  * 
- * @author ruoyi
- * @date 2025-06-12
+ * @author hxw
+ * @date 2025-06-13
  */
 @Service
 public class HrKpiItemServiceImpl implements IHrKpiItemService 

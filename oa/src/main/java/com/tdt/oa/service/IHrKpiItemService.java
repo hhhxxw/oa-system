@@ -6,8 +6,8 @@ import com.tdt.oa.domain.HrKpiItem;
 /**
  * 人力考核指标集Service接口
  * 
- * @author ruoyi
- * @date 2025-06-12
+ * @author hxw
+ * @date 2025-06-13
  */
 public interface IHrKpiItemService 
 {

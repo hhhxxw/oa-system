@@ -1,15 +1,16 @@
 package com.tdt.oa.mapper;
 
-import java.util.List;
 import com.tdt.oa.domain.HrKpiItem;
+
+import java.util.List;
 
 /**
  * 人力考核指标集Mapper接口
  * 
  * @author ruoyi
- * @date 2025-06-12
+ * @date 2025-06-13
  */
-public interface HrKpiItemMapper 
+public interface HrKpiItemMapper
 {
     /**
      * 查询人力考核指标集
