@@ -65,6 +65,10 @@
             <artifactId>oa</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.tdt</groupId>
+            <artifactId>tdt-oa</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-spring-boot-starter</artifactId>
         </dependency>

@@ -36,6 +36,7 @@
         <spring-security.version>5.7.12</spring-security.version>
         <spring-framework.version>5.3.39</spring-framework.version>
         <flowable.version>6.7.2</flowable.version>
+        <activiti.version>7.1.0.M6</activiti.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -226,12 +227,32 @@
             </dependency>
 
             <dependency>
+                <groupId>com.tdt</groupId>
+                <artifactId>tdt-oa</artifactId>
+                <version>${tdt.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.flowable</groupId>
                 <artifactId>flowable-spring-boot-starter</artifactId>
                 <version>${flowable.version}</version>
             </dependency>
 
-
+            <!--引入activiti的springboot启动器 -->
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring-boot-starter</artifactId>
+                <version>${activiti.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mybatis</artifactId>
+                        <groupId>org.mybatis</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -245,6 +266,7 @@
         <module>tdt-common</module>
         <module>oa</module>
         <module>tdt-office</module>
+        <module>tdt-oa</module>
     </modules>
     <packaging>pom</packaging>
 
