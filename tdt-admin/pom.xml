@@ -69,26 +69,64 @@
             <artifactId>tdt-oa</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.flowable</groupId>
-            <artifactId>flowable-spring-boot-starter</artifactId>
+            <groupId>com.tdt</groupId>
+            <artifactId>tdt-hr</artifactId>
+            <version>3.8.9</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!--引入activiti的springboot启动器 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring-boot-starter</artifactId>
+            <version>7.1.0.M6</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+<!--                <dependency>-->
+<!--            <groupId>org.flowable</groupId>-->
+<!--            <artifactId>flowable-spring-boot-starter</artifactId>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.flowable</groupId>
-            <artifactId>flowable-spring-boot-starter-process</artifactId>
-            <version>6.7.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.flowable</groupId>
-            <artifactId>flowable-json-converter</artifactId>
-            <version>6.7.2</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.flowable</groupId>-->
+<!--            <artifactId>flowable-spring-boot-starter-process</artifactId>-->
+<!--            <version>6.7.2</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.flowable</groupId>-->
+<!--            <artifactId>flowable-json-converter</artifactId>-->
+<!--            <version>6.7.2</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.flowable</groupId>
-            <artifactId>flowable-bpmn-layout</artifactId>
-            <version>6.7.2</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.flowable</groupId>-->
+<!--            <artifactId>flowable-bpmn-layout</artifactId>-->
+<!--            <version>6.7.2</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 
