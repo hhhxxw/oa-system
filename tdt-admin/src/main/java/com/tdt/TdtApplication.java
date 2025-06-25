@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
  * @author ruoyi
  */
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class})
-
 public class TdtApplication
 {
     public static void main(String[] args)

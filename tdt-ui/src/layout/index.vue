@@ -3,8 +3,8 @@
     <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
     <div :class="{ 'fixed-header': fixedHeader }">
       <navbar @setLayout="setLayout" />
-<!--      <tags-view v-if="needTagsView" />-->
-<!--      <scan>这是一个测试</scan>-->
+      <!--      <tags-view v-if="needTagsView" />-->
+      <!--      <scan>这是一个测试</scan>-->
     </div>
     <sidebar v-if="!sidebar.hide" class="sidebar-container" />
     <div :class="{ hasTagsView: needTagsView, sidebarHide: sidebar.hide }" class="main-container">
@@ -66,8 +66,8 @@ function setLayout() {
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/styles/mixin.scss";
-  @import "@/assets/styles/variables.module.scss";
+@import "@/assets/styles/mixin.scss";
+@import "@/assets/styles/variables.module.scss";
 
 .app-wrapper {
   @include clearfix;
@@ -91,17 +91,17 @@ function setLayout() {
   z-index: 999;
 }
 
-  .fixed-header {
-    position: fixed;
-    top: 0;
-    left: 0;  /* 覆盖整个宽度 */
-    right: 0;
-    z-index: 9;
-    width: 100% !important;
-    height: $navbar-height;
-    background: #1d2d40; /* 深绿色背景匹配侧边栏 */
-    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  }
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;  /* 覆盖整个宽度 */
+  right: 0;
+  z-index: 9;
+  width: 100% !important;
+  height: $navbar-height;
+  background: #1d2d40; /* 深绿色背景匹配侧边栏 */
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
 
 .hideSidebar .fixed-header {
   width: calc(100% - 54px);
@@ -113,5 +113,9 @@ function setLayout() {
 
 .mobile .fixed-header {
   width: 100%;
+}
+
+.main-container {
+  margin-top: 50px; /* 确保主要内容不会被导航栏遮挡 */
 }
 </style>

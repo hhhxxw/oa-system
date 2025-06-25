@@ -144,8 +144,7 @@ xss:
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
 
-#flowable:
-#  database-schema: tdt
-#  database-schema-update: true
+activiti:
+  check-process-definitions: false # 临时关闭
 
 
